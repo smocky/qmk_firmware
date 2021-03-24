@@ -1,0 +1,10 @@
+#pragma once
+
+#ifdef RGB_MATRIX_ENABLE
+#    define RGB_MATRIX_KEYPRESSES
+#endif
+
+#define RGBLIGHT_LAYERS
+#define RGBLED_NUM 4
+#define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
+#define RGBLIGHT_LAYER_BLINK
