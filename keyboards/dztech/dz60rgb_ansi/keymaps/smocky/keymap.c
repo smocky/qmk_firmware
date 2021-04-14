@@ -6,6 +6,7 @@ enum layer_names {
     _NAV,
     _CONFIG
 };
+#define OSX_AUDIO_OUTPUT_TOGGLE LGUI(KC_F13)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_60_ansi(
@@ -27,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_UP,   _______, _______, _______, KC_CALC, _______, KC_INS,  _______, KC_PSCR, KC_SLCK, KC_PAUS, RESET,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGUP,          KC_MPLY,
         KC_MPRV,          KC_VOLD, KC_VOLU, KC_MUTE, _______, _______, NK_TOGG, _______, _______, KC_END,  KC_PGDN,          KC_MNXT,
-        KC_F13, _______, _______,                            KC_MUTE,                            KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
+        OSX_AUDIO_OUTPUT_TOGGLE, _______, _______,                            KC_MUTE,                            KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
     ),
     [_CONFIG] = LAYOUT_60_ansi(
         KC_GRV, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  RESET,
