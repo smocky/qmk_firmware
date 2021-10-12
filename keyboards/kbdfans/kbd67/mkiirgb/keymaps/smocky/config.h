@@ -12,7 +12,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
-
+#undef DEBOUNCE
+#define DEBOUNCE 5
 #undef DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
 #undef DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
 #undef DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
