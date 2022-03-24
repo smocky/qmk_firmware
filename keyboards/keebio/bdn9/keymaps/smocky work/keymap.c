@@ -33,7 +33,13 @@ enum my_keycode {
   ZOOM_AUDIO_TOGGLE = SAFE_RANGE
 };
 
-#define OSX_SPOTIFY_SHORTCUT LCTL(LALT(LGUI(KC_S)))
+#define ZOOM_VIDEO_TOGGLE LGUI(LSFT(KC_V))
+#define ZOOM_AUDIO_TOGGLE LGUI(LSFT(KC_A))
+#define SLACK_MENTIONS_TOGGLE LGUI(LSFT(KC_M))
+#define SLACK_HOME_WORKSPACE LGUI(KC_1)
+#define SLACK_HISTORY_PREV LGUI(KC_LBRC)
+#define SLACK_HISTORY_NEXT LGUI(KC_RBRC)
+#define OSX_NOTIFICATIONS_SHORTCUT LCTL(KC_N)
 #define OSX_AUDIO_OUTPUT_TOGGLE LGUI(KC_F13)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -44,9 +50,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         | Notification Tray | Toggle Zoom Video, Hold: RGB Control | Toggle Audio Out Device   |
      */
     [_BASE] = LAYOUT(
-        KC_MUTE, TO(_CODE), KC_MPLY,
+        KC_MUTE, TO(_CODE), ZOOM_VIDEO_TOGGLE,
         KC_MPRV, LT(_SLACK, KC_MPLY), KC_MNXT,
-        OSX_SPOTIFY_SHORTCUT, LT(_RGB, KC_MPLY), OSX_AUDIO_OUTPUT_TOGGLE),
+        OSX_NOTIFICATIONS_SHORTCUT, LT(_RGB, ZOOM_VIDEO_TOGGLE), OSX_AUDIO_OUTPUT_TOGGLE),
+    /*
+    SLACK CONTROLS
+        | Press: Zoom Audio Mute Toggle  | Next Layer         | Press: Toggle Zoom Video |
+        | History Prev                   | N/A                | History Next             |
+        | Toggle Slack Mentions          | Toggle Zoom Video  | Slack Home Workspace     |
+     */
+    [_SLACK]  = LAYOUT(
+        ZOOM_AUDIO_TOGGLE, TO(_CODE), ZOOM_VIDEO_TOGGLE,
+        SLACK_HISTORY_PREV, _______, SLACK_HISTORY_NEXT,
+        SLACK_MENTIONS_TOGGLE, ZOOM_VIDEO_TOGGLE, SLACK_HOME_WORKSPACE
+    ),
     /*
     VSCODE CONTROLS
         | Press: Mute  | Next Layer         | Press: Toggle Zoom Video |
@@ -54,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         | Toggle Slack Mentions          | Toggle Zoom Video  | Slack Home Workspace     |
      */
     [_CODE]   = LAYOUT(
-        KC_MUTE, TO(_BASE), KC_MPLY,
+        KC_MUTE, TO(_BASE), ZOOM_VIDEO_TOGGLE,
         KC_C, LT(_SLACK, KC_F5), KC_F10,
         LGUI(LSFT(KC_M)), LT(_RGB, KC_F11), LGUI(LSFT(KC_F5))
     ),
@@ -68,6 +85,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == _LEFT) {
         switch (biton32(layer_state)) {
+            case _SLACK:
+                if (clockwise) {
+                    tap_code(KC_BRIGHTNESS_UP);
+                } else {
+                    tap_code(KC_BRIGHTNESS_DOWN);
+                }
+                break;
             case _RGB:
                 if (clockwise) {
                     rgblight_increase_val();
@@ -107,7 +131,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                     rgblight_decrease_hue();
                 }
                 break;
-            case _CODE:
+            case _SLACK:
               if (clockwise) {
                     tap_code(KC_PGDN);
                 } else {
@@ -143,12 +167,17 @@ const rgblight_segment_t PROGMEM my_video_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 3, HSV_BLUE}
 );
 */
+const rgblight_segment_t PROGMEM my_zoom_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 4, HSV_RED}
+);
 
 // Now define the array of layers. Later layers take precedence
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
   my_base_layer,
+    my_slack_layer,
     my_code_layer,
  //   my_video_layer,
+    my_zoom_layer
 );
 
 void keyboard_post_init_user(void) {
@@ -179,6 +208,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 rgblight_blink_layer(biton32(layer_state), 1000);
             }
             return false;*/
+        case ZOOM_AUDIO_TOGGLE:
+                    if (record->event.pressed) {
+                        register_code(KC_LGUI);
+                        register_code(KC_LSFT);
+                        tap_code(KC_A);
+                        unregister_code(KC_LGUI);
+                        unregister_code(KC_LSFT);
+                      //  rgblight_blink_layer(3, 1000);
+                      rgblight_mode(4);
+                    }
+            return false;
         default:
             return true;
     }
