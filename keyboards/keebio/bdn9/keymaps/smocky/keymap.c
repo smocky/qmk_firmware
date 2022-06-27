@@ -17,7 +17,6 @@
 
 enum bdn9_layer {
     _BASE = 0,
-    _SLACK,
     _CODE,
     _RGB
 };
@@ -25,12 +24,6 @@ enum bdn9_layer {
 enum encoder_names {
     _LEFT,
     _RIGHT
-};
-
-
-enum my_keycode {
-  //  SHOW_LAYER = SAFE_RANGE
-  ZOOM_AUDIO_TOGGLE = SAFE_RANGE
 };
 
 #define OSX_SPOTIFY_SHORTCUT LCTL(LALT(LGUI(KC_S)))
@@ -45,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_BASE] = LAYOUT(
         KC_MUTE, TO(_CODE), KC_MPLY,
-        KC_MPRV, LT(_SLACK, KC_MPLY), KC_MNXT,
+        KC_MPRV, KC_MPLY, KC_MNXT,
         OSX_SPOTIFY_SHORTCUT, LT(_RGB, KC_MPLY), OSX_AUDIO_OUTPUT_TOGGLE),
     /*
     VSCODE CONTROLS
@@ -55,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_CODE]   = LAYOUT(
         KC_MUTE, TO(_BASE), KC_MPLY,
-        KC_C, LT(_SLACK, KC_F5), KC_F10,
+        KC_C, KC_F5, KC_F10,
         LGUI(LSFT(KC_M)), LT(_RGB, KC_F11), LGUI(LSFT(KC_F5))
     ),
     [_RGB]    = LAYOUT(
@@ -124,49 +117,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         }
     }
     return false;
-}
-
-// RGB Layers
-const rgblight_segment_t PROGMEM my_base_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_BLUE}
-);
-
-const rgblight_segment_t PROGMEM my_slack_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 2, HSV_YELLOW}
-);
-
-const rgblight_segment_t PROGMEM my_code_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_GREEN}
-);
-/*
-const rgblight_segment_t PROGMEM my_video_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 3, HSV_BLUE}
-);
-*/
-
-// Now define the array of layers. Later layers take precedence
-const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-  my_base_layer,
-    my_code_layer,
- //   my_video_layer,
-);
-
-void keyboard_post_init_user(void) {
-    // Enable the LED layers
-    rgblight_layers = my_rgb_layers;
-}
-
-// Blink out the layer state
-layer_state_t layer_state_set_user(layer_state_t state) {
-    // Both layers will light up if both kb layers are active
-   /* rgblight_set_layer_state(0, layer_state_cmp(state, _SLACK));
-    rgblight_set_layer_state(1, layer_state_cmp(state, _CODE));
-    rgblight_set_layer_state(2, layer_state_cmp(state, _VIDEO));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _ZOOM));*/
-
-    rgblight_blink_layer(get_highest_layer(state), 500);
-
-    return state;
 }
 
 // ADD IN BLINK FOR CHANGING LAYERS TO TEMP DO IT, AS WELL AS A KEYPRESS TO CONFIRM
