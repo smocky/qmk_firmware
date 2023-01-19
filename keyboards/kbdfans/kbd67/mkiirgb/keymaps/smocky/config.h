@@ -6,6 +6,9 @@
 #define MANUFACTURER    KBDfans
 #define PRODUCT         kbd67mkiirgb v2
 
+#undef DEBOUNCE
+#define DEBOUNCE 8
+
 #define MATRIX_ROWS 5
 #define MATRIX_COLS 15
 #define MATRIX_ROW_PINS {F0, F1, F4, E6, C6 }
