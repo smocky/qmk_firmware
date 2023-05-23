@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_CONFIG] = LAYOUT_ortho_6x4(
         _______, RGB_MOD, _______, RGB_TOG,
-        RESET, _______, _______, _______,
+        QK_BOOT, _______, _______, _______,
         _______, BL_ON,   _______, BL_INC,
         _______, BL_TOGG, _______, BL_INC,
         _______, BL_OFF,  _______, BL_DEC,
