@@ -36,7 +36,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ========
 #pragma once
 
-#include "config_common.h"
 
 // place overrides here
 #ifdef TAPPING_TERM
