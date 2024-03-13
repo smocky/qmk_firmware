@@ -1,5 +1,5 @@
 #pragma once
-
+#define DEBOUNCE 7
 #ifdef RGB_MATRIX_ENABLE
 #define RGB_MATRIX_LED_PROCESS_LIMIT 4
 #define RGB_MATRIX_LED_FLUSH_LIMIT 26
