@@ -42,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______
     ),
     [_CONFIG] = LAYOUT_ortho_6x4(
-        _______, RGB_MOD, _______, RGB_TOG,
+        _______, UG_NEXT, _______, UG_TOGG,
         QK_BOOT, _______, _______, _______,
         _______, BL_ON,   _______, BL_UP,
         _______, BL_TOGG, _______, BL_UP,
@@ -56,6 +56,6 @@ bool led_update_user(led_t led_state) {
 
 // Sets pin D0 high or low depending on whether the highest active layer is your fn layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-    writePin(D0, layer_state_cmp(state, _NUMLOCK));
+    gpio_write_pin(D0, layer_state_cmp(state, _NUMLOCK));
     return state;
 }

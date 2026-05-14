@@ -34,6 +34,28 @@ enum encoder_names {
 #define SNAGIT_START_CAPTURE LSFT(LCTL(KC_C))
 #define SNAGIT_STOP_CAPTURE LSFT(LCTL(KC_V))
 
+#ifdef RGB_MATRIX_ENABLE
+#    define SM_RGB_TOG RM_TOGG
+#    define SM_RGB_MOD RM_NEXT
+#    define SM_RGB_RMOD RM_PREV
+#    define SM_RGB_HUI RM_HUEU
+#    define SM_RGB_HUD RM_HUED
+#    define SM_RGB_SAI RM_SATU
+#    define SM_RGB_SAD RM_SATD
+#    define SM_RGB_VAI RM_VALU
+#    define SM_RGB_VAD RM_VALD
+#else
+#    define SM_RGB_TOG UG_TOGG
+#    define SM_RGB_MOD UG_NEXT
+#    define SM_RGB_RMOD UG_PREV
+#    define SM_RGB_HUI UG_HUEU
+#    define SM_RGB_HUD UG_HUED
+#    define SM_RGB_SAI UG_SATU
+#    define SM_RGB_SAD UG_SATD
+#    define SM_RGB_VAI UG_VALU
+#    define SM_RGB_VAD UG_VALD
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
         | Knob 1: Vol Dn/Up |                                      | Knob 2: Page Dn/Up        |
@@ -57,9 +79,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LGUI(LSFT(KC_M)), LT(_RGB, KC_F11), LGUI(LSFT(KC_F5))
     ),
     [_RGB]    = LAYOUT(
-        RGB_TOG, RGB_MODE_PLAIN, QK_BOOT,
-        RGB_RMOD, RGB_TOG, RGB_MOD,
-        RGB_SAD, _______, RGB_SAI
+        SM_RGB_TOG, RGB_MODE_PLAIN, QK_BOOT,
+        SM_RGB_RMOD, SM_RGB_TOG, SM_RGB_MOD,
+        SM_RGB_SAD, _______, SM_RGB_SAI
     )
 };
 
@@ -68,9 +90,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         switch (biton32(layer_state)) {
             case _RGB:
                 if (clockwise) {
-                    tap_code16(RGB_VAI);
+                    tap_code16(SM_RGB_VAI);
                 } else {
-                    tap_code16(RGB_VAD);
+                    tap_code16(SM_RGB_VAD);
                 }
                 break;
             default:
@@ -85,9 +107,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         switch (biton32(layer_state)) {
             case _RGB:
                 if (clockwise) {
-                    tap_code16(RGB_SAI);
+                    tap_code16(SM_RGB_SAI);
                 } else {
-                    tap_code16(RGB_SAD);
+                    tap_code16(SM_RGB_SAD);
                 }
                 break;
             default:
@@ -102,9 +124,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         switch (biton32(layer_state)) {
             case _RGB:
                 if (clockwise) {
-                    tap_code16(RGB_HUI);
+                    tap_code16(SM_RGB_HUI);
                 } else {
-                    tap_code16(RGB_HUD);
+                    tap_code16(SM_RGB_HUD);
                 }
                 break;
             default:
